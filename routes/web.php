@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/posts', 'PostController@index')->name('posts');
+Route::get('/posts/{slug}', 'PostController@show')->name('post');
 
 
 Route::prefix('admin')->namespace('Admin')->name('admin.')->middleware('auth')->group(function() {
