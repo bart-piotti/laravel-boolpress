@@ -8,6 +8,7 @@
         <th>ID</th>
         <th>Title</th>
         <th>Body</th>
+        <th>Category</th>
         <th>Slug</th>
       </tr>
       @foreach ($data as $post)
@@ -15,6 +16,7 @@
         <td>{{$post->id}}</td>
         <td>{{$post->title}}</td>
         <td>{{$post->body}}</td>
+        <td>{{$post->category->name ?? '-'}}</td>
         <td>{{$post->slug}}</td>
         <td>
             <a href="{{ route('admin.posts.show', ['post' => $post->id ]) }}" class="btn btn-info" style="color:white;" >Show details</a>

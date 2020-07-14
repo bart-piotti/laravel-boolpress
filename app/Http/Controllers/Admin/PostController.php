@@ -6,18 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Post;
+use App\Category;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $data = Post::all();
+        $data = Post::with('category')->get();
         return view('admin.posts.index', ['data' => $data]);
     }
 
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', ['categories' => $categories]);
     }
 
 
@@ -26,6 +28,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'body' => 'required',
+            'category_id' => 'required'
         ]);
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
@@ -46,7 +49,8 @@ class PostController extends Controller
     public function edit($id)
     {
         $data = Post::find($id);
-        return view('admin.posts.edit', ['data' => $data]);
+        $categories = Category::all();
+        return view('admin.posts.edit', ['data' => $data, 'categories' => $categories]);
     }
 
 
@@ -55,6 +59,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'body' => 'required',
+            'category_id' => 'required',
         ]);
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
