@@ -28,12 +28,35 @@
                            <select id="category" class="form-control" name="category_id">
                                <option value="">Seleziona categoria</option>
                                @foreach ($categories as $category)
-                                   <option value="{{$category->id}}">{{$category->name}}</option>
+                                    <option
+                                     {{old('category_id', $data->category->id) == $category->id ? 'selected' : ''}}
+                                        value="{{$category->id}}">{{$category->name}}
+                                    </option>
                                @endforeach
                            </select>
                            @error ('category_id')
                                <small class="text-danger">{{ $message }}</small>
                            @enderror
+                        </div>
+                        <div class="form-group">
+                            Tags:
+                            @foreach ($tags as $tag)
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input
+                                        @if ($errors->any())
+                                            {{in_array($tag->id, old('tags', [])) ? 'checked' : ''}}
+                                        @else
+                                            {{$data->tags->contains($tag) ? 'checked' : ''}}
+                                        @endif
+                                        class=""
+                                        type="checkbox"
+                                        name="tags[]"
+                                        value="{{$tag->id}}">
+                                        {{$tag->name}}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
